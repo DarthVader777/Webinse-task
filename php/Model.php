@@ -1,15 +1,14 @@
 <?php
 
 /**
- * Description of MySQLClass
+ * Description of Model
  *
  * @author adikij
  */
-class MySQLClass {
+class Model {
 
     private $settings = array();
     private $filename = "connect.ini";
-    private $resourse;
     private $result;
     private $query_select = "SELECT * FROM people";
     private $query_select_by_id = "SELECT * FROM people WHERE id=";
@@ -31,7 +30,7 @@ class MySQLClass {
         $fields = mysql_list_fields($this->settings['db'], $this->settings['table']);
         $columns = mysql_num_fields($fields);
         $fields_name = array();
-        for ($i = 0; $i < $columns; $i++) {
+        for($i = 0; $i < $columns; $i++) {
             $fields_name[] = mysql_field_name($this->result, $i);
         }
         return $fields_name;
@@ -41,21 +40,11 @@ class MySQLClass {
      * Получить все записи с таблицы person 
      */
     public function getRows() {
-        $fields = array();
-        $this->result = mysql_query($this->query_select) or die("Query failed");
-        while ($row = mysql_fetch_array($this->result, MYSQL_ASSOC)) {
-            $fields[] = "<tr>";
-            $id = NULL;
-            foreach ($row as $key => $value) {
-                $fields[] = "<td>" . $value . "</td>\n";
-                if ($key == "id") {
-                    $id = $value;
-                }
-            }
-            $fields[] = "<td><input type = \"submit\" name = \"edit\" value = \"Edit\" /> <input type = \"hidden\" name = \"id\" value = " . $id . " /><input type = \"submit\" name = \"delete\" value = \"Delete\" /></td>\n";
-            $fields[] = "<tr>";
+        $record = array();
+        while($row = mysql_fetch_array($this->result, MYSQL_ASSOC)) {
+            $record[] =  $row;
         }
-        return $fields;
+        return $record;
     }
 
     public function insertRecord($firstName, $lastName, $email) {
@@ -76,8 +65,8 @@ class MySQLClass {
     public function getRecordById($id) {
         $record = array();
         $this->result = mysql_query($this->query_select_by_id . $id);
-        while ($row = mysql_fetch_array($this->result, MYSQL_ASSOC)) {
-            $record=$row;
+        while($row = mysql_fetch_array($this->result, MYSQL_ASSOC)) {
+            $record = $row;
         }
         return $record;
     }

@@ -1,39 +1,57 @@
+<?php
+include_once 'php/Model.php';
+$mysql = new Model();
+$id = $_GET['id'];
+$values = $mysql->getRecordById($id);
+?>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Edit record</title>
+    <?php if($id): ?>
+        <title>Edit record <?php echo $id ?></title>
+    <?php else: ?>
+        <title>Add new record</title>
+    <?php endif; ?>
     <link href="css/bootstrap.css" rel="stylesheet">
 </head>
 <body>
-<div class="container">
-    <form action="controller.php" method="POST">
-        <table class="table">
-            <tr>
-                <td>First name:</td>
-                <?php
-                include './MySQLClass.php';
-                $mysql = new MySQLClass();
-                $values = $mysql->getRecordById($_GET['id']);
-                echo "<td><input type=\"text\" name=\"first_name\" value=\"" . $values['first_name'] . "\" /></td>";
+<div class="navbar navbar-inverse" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/">Webinse Task</a>
+        </div>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="edit.php">Add new record</a></li>
+        </ul>
+    </div>
+</div>
 
-                echo " </tr>
+    <div class="container">
+        <div class="col-sm-6">
+            <form action="php/controller.php" method="POST">
+                <table class="table table-striped">
                     <tr>
-                        <td>Last name: </td>
-                        <td><input type=\"text\" name=\"last_name\" value=\"" . $values['last_name'] . "\"/></td>";
-                echo "</tr>
+                        <td>First name:</td>
+                        <td><input type="text" name="first_name" class="form-control" required="" autofocus=""
+                                   value="<?php echo $values['first_name'] ?>"/></td>
+                    </tr>
                     <tr>
-                        <td>E-mail: </td>
-                        <td><input type=\"text\" name=\"email\" value=\"" . $values['email'] . "\" /></td>";
-                ?>
-            </tr>
-            <tr>
-                <td><input type="submit" value="Back" name="back"/></td>
-                <td><input type="submit" value="Save" name="edit_save"/></td>
-            </tr>
-            <input type="hidden" name="id" value="<?PHP echo $_GET['id']; ?>"/>
-        </table>
-    </form>
+                        <td>Last name:</td>
+                        <td><input type="text" name="last_name" class="form-control" required="" autofocus=""
+                                   value="<?php echo $values['last_name'] ?>"/></td>
+                    </tr>
+                    <tr>
+                        <td>E-mail:</td>
+                        <td><input type="email" name="email" class="form-control" placeholder="Email address"
+                                   required="" autofocus="" value="<?php echo $values['email'] ?>"/></td>
+                    </tr>
+                </table>
+                <input type="hidden" name="id" value="<?php echo $id; ?>"/>
+                <input type="submit" value="Save" name="save" class="btn btn-default"/>
+            </form>
+        </div>
+    </div>
 </div>
 </body>
 </html>
