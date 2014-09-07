@@ -2,21 +2,21 @@
 
 include 'Model.php';
 
-//Переход на страницу редактирования записи
+//Move to edit page
 if(@$_REQUEST['edit']) {
     header("Location: ../edit.php?id=" . $_POST['id']);
 }
-//Удаление записи по id
+//Delete record from database by id
 if(@$_REQUEST['delete']) {
     $mysql = new Model();
     $mysql->deleteRecord($_POST['id']);
     header("Location: ../index.php");
 }
-//Переход на главную страницу
+//Move to home page
 if(@$_REQUEST['back']) {
     header("Location: ../index.php");
 }
-//Сохрание записи и переход на главную страницу
+//Save data in to database and move to home page
 if(@$_REQUEST['save']) {
     $mysql = new Model();
     if($_POST['id']) {
@@ -26,5 +26,3 @@ if(@$_REQUEST['save']) {
     }
     header("Location: ../index.php");
 }
-
-//header("Location: ../index.php");

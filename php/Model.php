@@ -3,7 +3,7 @@
 /**
  * Description of Model
  *
- * @author adikij
+ * @author Oleksandr Dykyi
  */
 class Model {
 
@@ -23,7 +23,7 @@ class Model {
     }
 
     /*
-     * Получить название столбцов
+     * Get names of columns
      */
     public function getFieldNames() {
         $this->result = mysql_query($this->query_select) or die("Query failed");
@@ -37,7 +37,7 @@ class Model {
     }
 
     /*
-     * Получить все записи с таблицы person 
+     * Get all records from table person
      */
     public function getRows() {
         $record = array();
